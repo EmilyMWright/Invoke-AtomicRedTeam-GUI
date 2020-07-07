@@ -15,7 +15,7 @@
     .EXAMPLE
 
         Run Atomic Red Team GUI
-        PS> IART_All.ps1 -AtomicFolderPath C:\Users\JohnSmith\AtomicRedTeam
+        PS> IART_GUI.ps1 -AtomicFolderPath C:\Users\JohnSmith\AtomicRedTeam
 
 #>
 
