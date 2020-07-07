@@ -23,7 +23,7 @@
 Param
 (
     [Parameter(Mandatory = $False, Position = 0)]
-    [string]$AtomicFolderPath = $( { $env:HOMEDRIVE + "\AtomicRedTeam" })
+    [string]$AtomicFolderPath = $($env:HOMEDRIVE + "\AtomicRedTeam")
 )
 
 $global:DepHash = @{}
@@ -1155,7 +1155,7 @@ $PrereqCmd_TextBox.Location						= New-Object System.Drawing.Point(10,85)
 $GetPrereqCmd_TextBox							= New-Object System.Windows.Forms.TextBox
 $GetPrereqCmd_TextBox.Size						= New-Object System.Drawing.Size(650,60)
 $GetPrereqCmd_TextBox.Multiline					= $true
-$PrereqCmd_TextBox.Scrollbars					= 'vertical'
+$GetPrereqCmd_TextBox.Scrollbars				= 'vertical'
 $GetPrereqCmd_TextBox.Location					= New-Object System.Drawing.Point(10,175)
 
 $AddDep_Button									= New-Object System.Windows.Forms.Button
