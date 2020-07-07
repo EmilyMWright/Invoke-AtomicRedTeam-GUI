@@ -608,7 +608,7 @@ Function Invoke()
 		{
 			If ($Action_ComboBox.Text -eq 'Run')
 			{
-				$InvokeCmd = 'Invoke-AtomicTest ' + $Attack_TextBox.Text + `
+				$InvokeCmd = 'Invoke-AtomicTest ' + $Attack_TextBox.Text + ' -Confirm:$false ' + `
 				" -PathToAtomicsFolder " + $AtomicsPath
 			}
 			Else
