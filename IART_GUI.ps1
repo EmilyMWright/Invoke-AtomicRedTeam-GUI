@@ -23,7 +23,7 @@
 Param
 (
     [Parameter(Mandatory = $False, Position = 0)]
-    [string]$AtomicFolderPath = $( if ($IsLinux -or $IsMacOS) { $Env:HOME + "/AtomicRedTeam" } else { $env:HOMEDRIVE + "\AtomicRedTeam" })
+    [string]$AtomicFolderPath = $( { $env:HOMEDRIVE + "\AtomicRedTeam" })
 )
 
 $global:DepHash = @{}
