@@ -69,7 +69,7 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Executor Command:** Specifies the command to execute as part of the atomic test. This should be specified when the atomic test can be executed in an automated fashion. (The Executor Type specified will dictate the command specified, e.g. PowerShell scriptblock code when the "PowerShell" Executor Type is specified.)
 - **Executor Clean-up Command:** Specifies the command to execute if there are any artifacts that need to be cleaned up.
 - **Executor Steps:** Specifies a manual list of steps to execute. This should be specified when the atomic test cannot be executed in an automated fashion, for example when GUI steps are involved that cannot be automated.
-- **Input Arguments:** 
+- **Input Arguments:** Specifies an input to an atomic test that is a requirement to run the test (think of these like function arguments).
 - **Dependencies:** Specifies dependencies that must be met prior to execution of an atomic test.
 - **Dependency Executor Type:** Specifies an override execution type for dependencies. By default, dependencies are executed using the framework specified in Executor Type. In most cases, 'PowerShell' is specified as a dependency executor type when 'CommandPrompt' is specified as an executor type.
 
