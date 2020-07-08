@@ -19,13 +19,6 @@
 
 #>
 
-[CmdletBinding()]
-Param
-(
-    [Parameter(Mandatory = $False, Position = 0)]
-    [string]$AtomicFolderPath = $($env:HOMEDRIVE + "\AtomicRedTeam")
-)
-
 $global:DepHash = @{}
 $global:InputHash = @{}
 $global:AtomicTest = $null
@@ -1377,26 +1370,38 @@ $HomeForm.Dispose()
 
 }
 
-Try
-{
-Write-Host "Began Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
+################################ Main ################################
 
-# Specifies path to atomics, creates atomics folder is it does not exist
-$AtomicsPath = Join-Path $AtomicFolderPath "atomics"
-$atomics_exists = Test-Path $AtomicsPath
-If ($atomics_exists -eq $false)
+StartGUI ()
 {
-	Write-Host "Creating empty atomics folder..." -BackgroundColor Black -ForegroundColor Magenta
-	mkdir $AtomicsPath
-}
-$ModuleName = Join-Path $AtomicFolderPath "invoke-atomicredteam"
-$ModuleName = Join-Path $ModuleName "Invoke-AtomicRedTeam.psd1"
+	[CmdletBinding()]
+	Param
+	(
+		[Parameter(Mandatory = $False, Position = 0)]
+		[string]$AtomicFolderPath = $($env:HOMEDRIVE + "\AtomicRedTeam")
+	)
 
-# Calls Home form
-AtomicRedTeamHome
-Write-Host "Ended Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
-}
-Catch
-{
-    Write-Host "Error in Invoke-AtomicRedTeam GUI:" $_ -BackgroundColor Black -ForegroundColor Red
+	Try
+	{
+	Write-Host "Began Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
+
+	# Specifies path to atomics, creates atomics folder is it does not exist
+	$AtomicsPath = Join-Path $AtomicFolderPath "atomics"
+	$atomics_exists = Test-Path $AtomicsPath
+	If ($atomics_exists -eq $false)
+	{
+		Write-Host "Creating empty atomics folder..." -BackgroundColor Black -ForegroundColor Magenta
+		mkdir $AtomicsPath
+	}
+	$ModuleName = Join-Path $AtomicFolderPath "invoke-atomicredteam"
+	$ModuleName = Join-Path $ModuleName "Invoke-AtomicRedTeam.psd1"
+
+	# Calls Home form
+	AtomicRedTeamHome
+	Write-Host "Ended Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
+	}
+	Catch
+	{
+		Write-Host "Error in Invoke-AtomicRedTeam GUI:" $_ -BackgroundColor Black -ForegroundColor Red
+	}
 }
