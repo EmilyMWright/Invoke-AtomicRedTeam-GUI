@@ -1372,7 +1372,7 @@ $HomeForm.Dispose()
 
 ################################ Main ################################
 
-Function StartGUI ()
+Function StartGUI
 {
 	[CmdletBinding()]
 	Param
@@ -1383,22 +1383,22 @@ Function StartGUI ()
 
 	Try
 	{
-	Write-Host "Began Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
+		Write-Host "Began Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
 
-	# Specifies path to atomics, creates atomics folder is it does not exist
-	$AtomicsPath = Join-Path $AtomicFolderPath "atomics"
-	$atomics_exists = Test-Path $AtomicsPath
-	If ($atomics_exists -eq $false)
-	{
-		Write-Host "Creating empty atomics folder..." -BackgroundColor Black -ForegroundColor Magenta
-		mkdir $AtomicsPath
-	}
-	$ModuleName = Join-Path $AtomicFolderPath "invoke-atomicredteam"
-	$ModuleName = Join-Path $ModuleName "Invoke-AtomicRedTeam.psd1"
+		# Specifies path to atomics, creates atomics folder is it does not exist
+		$AtomicsPath = Join-Path $AtomicFolderPath "atomics"
+		$atomics_exists = Test-Path $AtomicsPath
+		If ($atomics_exists -eq $false)
+		{
+			Write-Host "Creating empty atomics folder..." -BackgroundColor Black -ForegroundColor Magenta
+			mkdir $AtomicsPath
+		}
+		$ModuleName = Join-Path $AtomicFolderPath "invoke-atomicredteam"
+		$ModuleName = Join-Path $ModuleName "Invoke-AtomicRedTeam.psd1"
 
-	# Calls Home form
-	AtomicRedTeamHome
-	Write-Host "Ended Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
+		# Calls Home form
+		AtomicRedTeamHome
+		Write-Host "Ended Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
 	}
 	Catch
 	{
