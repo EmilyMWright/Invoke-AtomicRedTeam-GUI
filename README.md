@@ -1,18 +1,28 @@
 ## A GUI for the Invoke Atomic Red Team PowerShell Module
 
-Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). Users can run existing tests and create new tests. Note that PowerShell core does not support Windows Forms, so this GUI is designed only to run on Windows.
+Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). Users can run existing tests and create new tests. Note that PowerShell Core does not support Windows Forms, so this GUI is designed only to run on Windows.
 
 ### Prerequisites
 
 Install [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam)
 
-`IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam`
+```powershell
+IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing);
+Install-AtomicRedTeam
+```
 
 By default, the installer will download and install the execution framework to C:\AtomicRedTeam. See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
 
 ### Usage
 
-From a PowerShell prompt, use `IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/IART_GUI.ps1" -UseBasicParsing); StartGUI` to start the GUI. If your AtomicRedTeam folder is not in the default location, append `-AtomicFolderPath "yourpath\AtomicRedTeam"` to the command.
+From a PowerShell prompt, use 
+
+```powershell
+IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/IART_GUI.ps1" -UseBasicParsing); 
+StartGUI
+```
+
+to start the GUI. If your AtomicRedTeam folder is not in the default location, append `-AtomicFolderPath "yourpath\AtomicRedTeam"` to the command.
 
 #### Running Tests
 
@@ -22,6 +32,11 @@ Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://
 - Use the **Test** drop down to select a specific test (default 'All')
 - Select an action from the drop down menu (for more details on the purpose of each action, peruse the [Invoke Atomic Red Team Wiki](https://github,com/redcanaryco/invoke-atomicredteam/wiki)).
 - If you selected a specific test, you can edit the default input values in the **Edit default inputs** data grid
+
+**WARNING**
+Executing atomic tests may leave your system in an undesirable state. You are responsible for understanding what a test does before executing.
+Ensure you have permission to test before you begin.
+It is recommended to set up a test machine for atomic test execution that is similar to the build in your environment. Be sure you have your collection/EDR solution in place, and that the endpoint is checking in and active.
 
 #### Creating Tests
 
@@ -35,7 +50,7 @@ Tests are created using the Invoke-AtomicRedTeam [New-Atomic module](https://git
 - To create a new technique, fill in the [attack technique parameters](attack_technique_parameters) and click **Add test to new attack technique**. Alternatively, append the test to an exisitng technique. Type the technique number or use the **Browse...** button to navigate to the folder of the technique number, then click **Add test to existing attack technique**.
 
 ### Parameter Details
-##### Test Parameters
+#### Test Parameters
 
 The minimum parameters are test name, test description, supported platforms, and either executor type and executor command, or executor steps. 
 
@@ -66,7 +81,7 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Type:** Specifies the data type of the input argument. The following data types are supported: Path, Url, String, Integer, Float.
 - **Default:** Specifies a default value for an input argument
 
-##### Dependency Parameters
+#### Dependency Parameters
 
 - **Description:** Specifies a human-readable description of the dependency. This should be worded in the following form: SOMETHING must SOMETHING
 - **Prereq Command:** Specifies commands to check if prerequisites for running this test are met. For the "command_prompt" executor, if any command returns a non-zero exit code, the pre-requisites are not met. For the "powershell" executor, all commands are run as a script block and the script block must return 0 for success.
@@ -74,7 +89,7 @@ The minimum parameters are test name, test description, supported platforms, and
     1) If a prerequisite is not met, perform steps necessary to satify the prerequisite. Such a command should be implemented when prerequisites can be satisfied in an automated fashion.
     2) If a prerequisite is not met, inform the user what the steps are to satisfy the prerequisite. Such a message should be presented to the user in the case that prerequisites cannot be satisfied in an automated fashion.
 
-##### Attack Technique Parameters
+#### Attack Technique Parameters
 
 - **Attack Technique:** Specifies one or more MITRE ATT&CK techniques that to which this technique applies. Per MITRE naming convention, an attack technique should start with "T" followed by a 4 digit number. The MITRE sub-technique format is also supported: TNNNN.NNN
 - **DisplayName:** Specifies the name of the technique as defined by ATT&CK. Example: 'Audio Capture'
