@@ -11,7 +11,7 @@ IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/mas
 Install-AtomicRedTeam
 ```
 
-By default, the installer will download and install the execution framework to C:\AtomicRedTeam. See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
+By default, the installer will download and install the execution framework to `C:\AtomicRedTeam`. See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
 
 ### Usage
 
@@ -22,32 +22,31 @@ IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GU
 StartGUI
 ```
 
-to start the GUI. If your AtomicRedTeam folder is not in the default location, append `-AtomicFolderPath "yourpath\AtomicRedTeam"` to the command.
+If your AtomicRedTeam folder is not in the default location, append `-AtomicFolderPath "yourpath\AtomicRedTeam"` to the command.
 
 #### Running Tests
 
 Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-AtomicTest.ps1) by specifying the ATT&CK Technique number to which the test is mapped. 
 
-- On the home page, type the technique number or use the **Browse...** button to navigate to the folder of the technique number.
-- Use the **Test** drop down to select a specific test (default 'All')
-- Select an action from the drop down menu (for more details on the purpose of each action, peruse the [Invoke Atomic Red Team Wiki](https://github,com/redcanaryco/invoke-atomicredteam/wiki)).
-- If you selected a specific test, you can edit the default input values in the **Edit default inputs** data grid
+- On the home page, type the technique (TNNNN) or use the **Browse...** button to navigate to the folder of the technique.
+- Use the **Test** drop down to select a specific test (default 'All').
+- Select an action from the drop down menu (for more details on the purpose of each action, peruse the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki)).
+- If you selected a specific test, you can edit the default input values in the **Edit default inputs** data grid.
 
 **WARNING**
-Executing atomic tests may leave your system in an undesirable state. You are responsible for understanding what a test does before executing.
-Ensure you have permission to test before you begin.
-It is recommended to set up a test machine for atomic test execution that is similar to the build in your environment. Be sure you have your collection/EDR solution in place, and that the endpoint is checking in and active.
+
+Executing atomic tests may leave your system in an undesirable state. You are responsible for understanding what a test does before executing. Ensure you have permission to test before you begin. It is recommended to set up a test machine for atomic test execution that is similar to the build in your environment. Be sure you have your collection/EDR solution in place, and that the endpoint is checking in and active.
 
 #### Creating Tests
 
 Tests are created using the Invoke-AtomicRedTeam [New-Atomic module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/New-Atomic.ps1). Each new test must be added to an ATT&CK Technique (either existing or new).
 
 - From the home page, click **Create Test**. You will be directed to a new window to specify the test parameters.
-- Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form with parameters from an existing test. Type the technique number or use the **Browse...** button to navigate to the folder of the technique number, then click **Load Test**. To reset all parameters, click **Clear**.
+- Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form with parameters from an existing test. Type the technique (TNNNN) or use the **Browse...** button to navigate to the folder of the technique, then click **Load Test**. To reset all parameters, click **Clear**.
 - Optionally, fill in [input parameters](#input_parameters) and click **Add Input**. To modify an input, select it in the **Input List**, make your changes and click **Update Input**. To remove it altogether, click **Remove Input**.
 - Optionally, fill in [dependency parameters](#dependency_parameters) and click **Add Dependency**. To modify a dependency, select it in the **Dependency List**, make your changes and click **Update Dependency**. To remove it altogether, click **Remove Dependency**.
 - Click **Create Test**. You will be directed to a new window to add the test to a technique.
-- To create a new technique, fill in the [attack technique parameters](attack_technique_parameters) and click **Add test to new attack technique**. Alternatively, append the test to an exisitng technique. Type the technique number or use the **Browse...** button to navigate to the folder of the technique number, then click **Add test to existing attack technique**.
+- To create a new technique, fill in the [attack technique parameters](attack_technique_parameters) and click **Add test to new attack technique**. Alternatively, append the test to an exisitng technique. Type the technique (TNNNN) or use the **Browse...** button to navigate to the folder of the technique, then click **Add test to existing attack technique**.
 
 ### Parameter Details
 #### Test Parameters
@@ -74,7 +73,7 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Dependencies:** Specifies dependencies that must be met prior to execution of an atomic test.
 - **Dependency Executor Type:** Specifies an override execution type for dependencies. By default, dependencies are executed using the framework specified in Executor Type. In most cases, 'PowerShell' is specified as a dependency executor type when 'CommandPrompt' is specified as an executor type.
 
-##### Input Parameters
+#### Input Parameters
 
 - **Name:** Specifies the name of the input argument. This must be lowercase and can optionally, have underscores. Within executors and dependencies, reference the input using #{input_name}.
 - **Description:** Specifies a human-readable description of the input argument.
@@ -93,6 +92,10 @@ The minimum parameters are test name, test description, supported platforms, and
 
 - **Attack Technique:** Specifies one or more MITRE ATT&CK techniques that to which this technique applies. Per MITRE naming convention, an attack technique should start with "T" followed by a 4 digit number. The MITRE sub-technique format is also supported: TNNNN.NNN
 - **DisplayName:** Specifies the name of the technique as defined by ATT&CK. Example: 'Audio Capture'
+
+### License
+
+This project is licensed under the terms of the MIT license. See [LICENSE.txt](https://github.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/LICENSE.txt)
 
 
 
