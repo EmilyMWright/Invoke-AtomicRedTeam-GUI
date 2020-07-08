@@ -1372,7 +1372,7 @@ $HomeForm.Dispose()
 
 ################################ Main ################################
 
-StartGUI ()
+Function StartGUI ()
 {
 	[CmdletBinding()]
 	Param
