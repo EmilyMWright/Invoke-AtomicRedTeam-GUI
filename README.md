@@ -95,7 +95,7 @@ The minimum parameters are test name, test description, supported platforms, and
 
 ### License
 
-This project is licensed under the terms of the MIT license. See [LICENSE.txt](https://github.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/LICENSE.txt)
+This project is licensed under the terms of the MIT license. See [LICENSE.txt](https://github.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/blob/master/LICENSE.txt)
 
 
 
