@@ -167,7 +167,6 @@ Function ClearDepParameters()
 	$DepDesc_TextBox.Text = ""
 	$PrereqCmd_TextBox.Text = ""
 	$GetPrereqCmd_TextBox.Text = ""
-	$DepPanel.Controls | ForEach-Object {If ($_ -is [System.Windows.Forms.RadioButton]) {$_.Checked = $false}}
 	$Dep1_Hash = @{}
 }
 
