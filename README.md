@@ -1,6 +1,14 @@
 ## A GUI for the Invoke Atomic Red Team PowerShell Module
 
-Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). Users can run existing tests and create new tests.
+Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). Users can run existing tests and create new tests. Note that PowerShell core does not support Windows Forms, so this GUI is designed only to run on Windows.
+
+### Prerequisites
+
+Install [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam)
+
+`IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing); Install-AtomicRedTeam`
+
+By default, the installer will download and install the execution framework to C:\AtomicRedTeam. See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
 
 ### Usage
 
@@ -21,12 +29,13 @@ Tests are created using the Invoke-AtomicRedTeam [New-Atomic module](https://git
 
 - From the home page, click **Create Test**. You will be directed to a new window to specify the test parameters.
 - Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form with parameters from an existing test. Type the technique number or use the **Browse...** button to navigate to the folder of the technique number, then click **Load Test**. To reset all parameters, click **Clear**.
-- Optionally, fill in input parameters and click **Add Input**. To modify an input, select it in the **Input List**, make your changes and click **Update Input**. To remove it altogether, click **Remove Input**.
-- Optionally, fill in dependency parameters and click **Add Dependency**. To modify a dependency, select it in the **Dependency List**, make your changes and click **Update Dependency**. To remove it altogether, click **Remove Dependency**.
+- Optionally, fill in [input parameters](#input_parameters) and click **Add Input**. To modify an input, select it in the **Input List**, make your changes and click **Update Input**. To remove it altogether, click **Remove Input**.
+- Optionally, fill in [dependency parameters](#dependency_parameters) and click **Add Dependency**. To modify a dependency, select it in the **Dependency List**, make your changes and click **Update Dependency**. To remove it altogether, click **Remove Dependency**.
 - Click **Create Test**. You will be directed to a new window to add the test to a technique.
-- To create a new technique, fill in the attack technique parameters and click **Add test to new attack technique**. Alternatively, append the test to an exisitng technique. Type the technique number or use the **Browse...** button to navigate to the folder of the technique number, then click **Add test to existing attack technique**.
+- To create a new technique, fill in the [attack technique parameters](attack_technique_parameters) and click **Add test to new attack technique**. Alternatively, append the test to an exisitng technique. Type the technique number or use the **Browse...** button to navigate to the folder of the technique number, then click **Add test to existing attack technique**.
 
-#### Test Parameters
+### Parameter Details
+##### Test Parameters
 
 The minimum parameters are test name, test description, supported platforms, and either executor type and executor command, or executor steps. 
 
@@ -50,24 +59,25 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Dependencies:** Specifies dependencies that must be met prior to execution of an atomic test.
 - **Dependency Executor Type:** Specifies an override execution type for dependencies. By default, dependencies are executed using the framework specified in Executor Type. In most cases, 'PowerShell' is specified as a dependency executor type when 'CommandPrompt' is specified as an executor type.
 
-
-#### Input Parameters
+##### Input Parameters
 
 - **Name:** Specifies the name of the input argument. This must be lowercase and can optionally, have underscores. Within executors and dependencies, reference the input using #{input_name}.
 - **Description:** Specifies a human-readable description of the input argument.
 - **Type:** Specifies the data type of the input argument. The following data types are supported: Path, Url, String, Integer, Float.
 - **Default:** Specifies a default value for an input argument
 
-#### Dependency Parameters
+##### Dependency Parameters
 
 - **Description:** Specifies a human-readable description of the dependency. This should be worded in the following form: SOMETHING must SOMETHING
-- **Prereq Command:** Specifies commands to check if prerequisites for running this test are met.
-    For the "command_prompt" executor, if any command returns a non-zero exit code, the pre-requisites are not met.
-    For the "powershell" executor, all commands are run as a script block and the script block must return 0 for success.
-- **Get Prereq Command:** Specifies commands to meet this prerequisite or a message describing how to meet this prereq
-    More specifically, this command is designed to satisfy either of the following conditions:
+- **Prereq Command:** Specifies commands to check if prerequisites for running this test are met. For the "command_prompt" executor, if any command returns a non-zero exit code, the pre-requisites are not met. For the "powershell" executor, all commands are run as a script block and the script block must return 0 for success.
+- **Get Prereq Command:** Specifies commands to meet this prerequisite or a message describing how to meet this prereq. More specifically, this command is designed to satisfy either of the following conditions:
     1) If a prerequisite is not met, perform steps necessary to satify the prerequisite. Such a command should be implemented when prerequisites can be satisfied in an automated fashion.
     2) If a prerequisite is not met, inform the user what the steps are to satisfy the prerequisite. Such a message should be presented to the user in the case that prerequisites cannot be satisfied in an automated fashion.
+
+##### Attack Technique Parameters
+
+- **Attack Technique:** Specifies one or more MITRE ATT&CK techniques that to which this technique applies. Per MITRE naming convention, an attack technique should start with "T" followed by a 4 digit number. The MITRE sub-technique format is also supported: TNNNN.NNN
+- **DisplayName:** Specifies the name of the technique as defined by ATT&CK. Example: 'Audio Capture'
 
 
 
