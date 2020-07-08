@@ -222,6 +222,11 @@ Function LoadTest()
 		$SupportedPlatforms = $global:AtomicTest.supported_platforms
 		For ($i=0; $i -le 2; $i++) {If ($SupportedPlatforms.Contains($SuppPlats_CheckBox.Items[$i].ToString().ToLower())) {$SuppPlats_CheckBox.SetItemChecked($i,$true)}}
 		
+		If ($global:AtomicTest.Contains("dependency_executor_name"))
+		{
+			$DepExecType = $global:AtomicTest.dependency_executor_name -Replace "_",""
+			$DepPanel.Controls | ForEach-Object {If (($_ -is [System.Windows.Forms.RadioButton]) -and ($_.Text -eq $DepExecType)) {$_.Checked = $true}}
+		}
 		If ($global:AtomicTest.Contains("executor"))
 		{
 			If ($global:AtomicTest.executor.Contains("command"))
