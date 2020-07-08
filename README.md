@@ -4,7 +4,7 @@ Atomic Red Team is a library of small, highly portable detection tests mapped to
 
 ### Usage
 
-From a PowerShell prompt, use `IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/IART_GUI.ps1" -UseBasicParsing); StartGUI` to start the GUI. If your AtomicRedTeam folder is not in the default location, use `-AtomicFolderPath "yourpath/AtomicRedTeam"` to specify the location.
+From a PowerShell prompt, use `IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/IART_GUI.ps1" -UseBasicParsing); StartGUI` to start the GUI. If your AtomicRedTeam folder is not in the default location, append `-AtomicFolderPath "yourpath\AtomicRedTeam"` to the command.
 
 #### Running Tests
 
