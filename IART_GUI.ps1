@@ -225,6 +225,7 @@ Function LoadTest()
 		If ($global:AtomicTest.Contains("dependency_executor_name"))
 		{
 			$DepExecType = $global:AtomicTest.dependency_executor_name -Replace "_",""
+			[System.Windows.Forms.MessageBox]::Show("Dep Type" + $DepExecType, 'Debug')
 			$DepPanel.Controls | ForEach-Object {If (($_ -is [System.Windows.Forms.RadioButton]) -and ($_.Text -eq $DepExecType)) {$_.Checked = $true}}
 		}
 		If ($global:AtomicTest.Contains("executor"))
