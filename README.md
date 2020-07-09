@@ -4,7 +4,7 @@ Atomic Red Team is a library of small, highly portable detection tests mapped to
 
 ## Prerequisites
 
-Install [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). From a PowerShell promot, use:
+Install [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). From a PowerShell prompt, use:
 
 ```powershell
 IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing);
