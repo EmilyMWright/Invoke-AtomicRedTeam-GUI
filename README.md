@@ -1,6 +1,8 @@
 # A GUI for the Invoke Atomic Red Team PowerShell Module
 
-Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam) to run existing tests and create new tests. Note that PowerShell Core does not support Windows Forms, so this GUI is designed only to run on Windows.
+Atomic Red Team is a library of small, highly portable detection tests mapped to the [MITRE ATT&CK™ Framework](https://attack.mitre.org/matrices/enterprise/). [Invoke-AtomicRedTeam](https://github,com/redcanaryco/invoke-atomicredteam) is a PowerShell module to execute tests as defined in the [atomics folder](https://github.com/redcanaryco/atomic-red-team/tree/master/atomics) of Red Canary's Atomic Red Team project, and create custom tests in the same format. The "atomics folder" contains a folder for each Technique defined by the MITRE ATT&CK™ Framework. Inside of each of these "T#" folders you'll find a yaml file that defines the attack procedures for each atomic test. 
+
+This GUI provides a Windows Form to interact with the Invoke Atomic Red Team PowerShell module. Note that PowerShell Core does not support Windows Forms, so this GUI is designed only to run on Windows.
 
 ## Prerequisites
 
@@ -11,11 +13,15 @@ IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/mas
 Install-AtomicRedTeam
 ```
 
-By default, the installer will download and install the execution framework to `C:\AtomicRedTeam`. See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
+By default, the installer will download and install the execution framework to `C:\AtomicRedTeam`.
+
+The [atomics folder](https://github.com/redcanaryco/atomic-red-team/tree/master/atomics) already contains many test definitions. If you would like to install the atomics folder at the same time that you install the execution framework, add the `-getAtomics` switch during the install of the execution framework.
+
+See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
 
 ## Usage
 
-From a PowerShell prompt, use: 
+Start the GUI. From a PowerShell prompt, use: 
 
 ```powershell
 IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/IART_GUI.ps1" -UseBasicParsing); 
@@ -26,7 +32,7 @@ If your AtomicRedTeam folder is not in the default location, append `-AtomicFold
 
 ### Running Tests
 
-Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-AtomicTest.ps1) by specifying the ATT&CK Technique number to which the test is mapped. 
+Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-AtomicTest.ps1) by specifying the ATT&CK Technique number to which the test is mapped.
 
 - On the home page, type the technique (TNNNN) or use the **Browse...** button to navigate to the folder of the technique.
 - Use the **Test** drop down to select a specific test (default 'All').
@@ -59,12 +65,16 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Supported Platforms:** Specifies the OS/platform on which the test is designed to run. The following platforms are currently supported: Windows, macOS, Linux. (A single test can support multiple platforms)
 - **Executor Type:** Specifies the the framework or application in which the test should be executed. The following executor types are currently supported: CommandPrompt, Sh, Bash, PowerShell.
     - **CommandPrompt:** The Windows Command Prompt, aka cmd.exe
+    
     Requires the -ExecutorCommand argument to contain a multi-linescript that will be preprocessed and then executed by cmd.exe.
     - **PowerShell:** PowerShell
+    
     Requires the -ExecutorCommand argument to contain a multi-line PowerShell scriptblock that will be preprocessed and then executed by powershell.exe
     - **Sh:** Linux's bourne shell
+    
     Requires the -ExecutorCommand argument to contain a multi-line script that will be preprocessed and then executed by sh.
     - **Bash:** Linux's bourne again shell
+    
     Requires the -ExecutorCommand argument to contain a multi-line script that will be preprocessed and then executed by bash.
 - **Elevation Required:** Specifies that the test must run with elevated privileges.
 - **Executor Command:** Specifies the command to execute as part of the atomic test. This should be specified when the atomic test can be executed in an automated fashion. (The Executor Type specified will dictate the command specified, e.g. PowerShell scriptblock code when the "PowerShell" Executor Type is specified.)
