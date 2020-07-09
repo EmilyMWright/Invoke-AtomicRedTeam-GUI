@@ -5,17 +5,17 @@
 
         Author: Emily Wright ( emily.wright.mi@gmail.com )
 		Last updated: July 2020
-        Required Dependencies: powershell, yaml, Atomic Red Team Invoke-AtomicRedTeam Powershell Framework
+        Required Dependencies: PowerShell, yaml, Atomic Red Team Invoke-AtomicRedTeam Powershell Framework
 
     .PARAMETER AtomicFolderPath
 
         Specifies the path where Atomic Red Team Invoke-AtomicRedTeam Powershell Framework is installed
-		Defualt: $Env:HOMEDRIVE + "\AtomicRedTeam"
+		Default: $env:HOMEDRIVE + "\AtomicRedTeam"
 
     .EXAMPLE
 
-        Run Atomic Red Team GUI
-        PS> IART_GUI.ps1 -AtomicFolderPath C:\Users\JohnSmith\AtomicRedTeam
+		Run Atomic Red Team GUI
+        PS> StartGUI -AtomicFolderPath C:\Users\JohnSmith\AtomicRedTeam
 
 #>
 
@@ -48,17 +48,16 @@ Function ListTechniques ($BoxToUpdate)
 # Checks whether technqiue name in textbox is listed in atomics folder
 Function ValidateTechnique($BoxToValidate)
 {
-	$ValidTechniques = @()
-	Get-ChildItem -Path $AtomicsPath -Recurse -Directory | 
-	ForEach-Object {If($_.Name -match '^T\d{4}(-\d{3})?'){$ValidTechniques += $_.Name}}
-	return $ValidTechniques.Contains($BoxToValidate.Text)
-	
+	$TechPath = Join-Path $AtomicsPath $BoxToValidate.Text
+	$TechFile = $BocToValidate.Text + ".yaml" 
+	$TechFilePath = Join-Path $TechPath $TechFile
+	return (Test-Path $TechFilePath)
 }
 
 # Calls New-AtomicTechnique with parameters from form
 Function CreateTech()
 {
-	try
+	Try
 	{
 		$AtomicTech = New-AtomicTechnique -AttackTechnique $AttackTech_TextBox.Text -DisplayName $AttackDispName_TextBox.Text -AtomicTests @($global:AtomicTest)
 		$TechniqueFile = $AttackTech_TextBox.Text + ".yaml"
@@ -66,20 +65,21 @@ Function CreateTech()
 		$TechExists = Test-Path $FolderPath
 		If ($TechExists -eq $false)
 		{
-		    md $FolderPath
+		    mkdir $FolderPath
 		    $FilePath = New-Item -Path $FolderPath -Name $TechniqueFile
 		    $AtomicTech | ConvertTo-Yaml | Out-File $FilePath
             
             Write-Host "Added test " $global:AtomicTest.name " to new attack technique " $AttackTech_TextBox.Text -BackgroundColor Black -ForegroundColor Magenta
 		    [System.Windows.Forms.MessageBox]::Show("Added test " + $global:AtomicTest.name + " to new attack technique " + $AttackTech_TextBox.Text, 'Success!')
-		    ReturnHome2
+			$global:AtomicTest = $null
+			ReturnToTest
 		}
 		Else
 		{
 	 	    [System.Windows.Forms.MessageBox]::Show("Technique already exists.`r`nPlease enter a new technique number or add the test to an existing technique.", 'Error')
 		}
 	}
-	catch { [System.Windows.Forms.MessageBox]::Show("Error creating technique: " + $_, 'Error') }
+	Catch { [System.Windows.Forms.MessageBox]::Show("Error creating technique: " + $_, 'Error') }
 }
 
 # Adds AtomicTest to existing AtomicTechnique by modifying yaml file directly
@@ -107,7 +107,8 @@ Function AddToTech()
 			$AtomicTech | ConvertTo-Yaml | Out-File $FilePath
             Write-Host "Added test " $global:AtomicTest.name " to attack technique " $AttackTech_TextBox2.Text -BackgroundColor Black -ForegroundColor Magenta
 			[System.Windows.Forms.MessageBox]::Show("Added test " + $NewAtomicTest.name + " to attack technique " + $Attack_TextBox2.Text, 'Success!')
-			ReturnHome2
+			$global:AtomicTest = $null
+			ReturnToTest
 		}
 	}
 	Else
@@ -117,7 +118,7 @@ Function AddToTech()
 }
 
 # Closes AddTest form (which returns focus to NewTest form)
-Function ReturnHome2()
+Function ReturnToTest()
 {	
     $AtomicTech = $null
     $NewAtomicTest = $null
@@ -261,7 +262,6 @@ Function LoadTest()
 			}
 		}
 		$global:AtomicTest = $null
-		
 	}
 	Else
 	{
@@ -289,12 +289,12 @@ Function CreateTest()
 	{ 
 		If ($Input_ToCreate -ne $null)
 		{
-		try {$AtomicInputs += New-AtomicTestInputArgument `
+		Try {$AtomicInputs += New-AtomicTestInputArgument `
 				-Name $Input_ToCreate.key `
 				-Description $Input_ToCreate.value.description `
 				-Type $Input_ToCreate.value.type `
 				-Default $Input_ToCreate.value.default}
-		catch { [System.Windows.Forms.MessageBox]::Show("Error creating input: " + $_, 'Error'); return }
+		Catch { [System.Windows.Forms.MessageBox]::Show("Error creating input: " + $_, 'Error'); return }
 		}
 	}
 
@@ -305,14 +305,14 @@ Function CreateTest()
 	{ 
 		If ($Dep_ToCreate -ne $null)
 		{
-		try 
+		Try 
         {
             $AtomicDeps += New-AtomicTestDependency `
 				-Description $Dep_ToCreate.Key `
 				-PrereqCommand $Dep_ToCreate.value.prereq_command `
 				-GetPrereqCommand $Dep_ToCreate.value.get_prereq_command 
         }
-		catch { [System.Windows.Forms.MessageBox]::Show("Error creating dependency: " + $_, 'Error'); return }
+		Catch { [System.Windows.Forms.MessageBox]::Show("Error creating dependency: " + $_, 'Error'); return }
 		}
 
 	}
@@ -349,7 +349,9 @@ Function CreateTest()
 			$NewTestCmd += ' -ExecutorElevationRequired'
 		}
 
-		Try { Invoke-Expression $NewTestCmd 
+		Try
+		{
+			Invoke-Expression $NewTestCmd 
 			$NewTestForm.WindowState = 'Minimized'
 			AddAtomicTestForm
 			$NewTestForm.WindowState = 'Maximized'
@@ -376,7 +378,9 @@ Function CreateTest()
 
         $NewTestCmd += '; $global:AtomicTest.executor.name = "manual"'
 
-		Try { Invoke-Expression $NewTestCmd 
+		Try 
+		{ 
+			Invoke-Expression $NewTestCmd 
 			$NewTestForm.WindowState = 'Minimized'
 			AddAtomicTestForm
 			$NewTestForm.WindowState = 'Maximized'
@@ -420,25 +424,16 @@ Function AddInput()
 		{
 			if ($InputName_TextBox.Text -match '^(?-i:[0-9a-z_]+)$')
 			{
-					if ($InputType_ComboBox.Text -in @('Path','Url','String','Integer','Float','Override Type'))
-					{
-					$Input_ListBox.Items.Add($InputName_TextBox.Text)
-					
-					$Input1_Hash = 
-					@{
+
+				$Input_ListBox.Items.Add($InputName_TextBox.Text)
+				$Input1_Hash = 
+				@{
 					description = $InputDesc_TextBox.Text; 
 					type = $InputType_ComboBox.Text;
 					default = $InputDefault_TextBox.Text
-					}
-					
-					$global:InputHash.Add($InputName_TextBox.Text, $Input1_Hash)
-					
-					ClearInputParameters
-					}
-					else
-					{
-						[System.Windows.Forms.MessageBox]::Show('Input Type must be Path, Url, String, Integer, or Float. Please select a supported type.', 'Error')
-					}
+				}	
+				$global:InputHash.Add($InputName_TextBox.Text, $Input1_Hash)	
+				ClearInputParameters
 			}
 			else
 			{
@@ -527,7 +522,7 @@ Function AddDependency()
 # Removes dependency description from listbox for user convenience
 Function RemoveDependency()
 {
-	$Dep_Hash.Remove($Dep_ListBox.SelectedItem)
+	$global:DepHash.Remove($Dep_ListBox.SelectedItem)
 	$Dep_ListBox.Items.Remove($Dep_ListBox.SelectedItem)
 	ClearDepParameters
 }
@@ -559,7 +554,7 @@ Function ClearHomeParameters()
 	$InvokeCmd = ""
 }
 
-# Prints inputs for selected test to screen to be customized
+# Loads inputs for selected test so they can be customized
 Function ListInputs()
 {
 	Param([System.Windows.Forms.TextBox]$ToRead)
@@ -572,10 +567,10 @@ Function ListInputs()
 		$TechniqueFile = $ToRead.Text + ".yaml"
 		$FolderPath = Join-Path $AtomicsPath $ToRead.Text
 		$FilePath = Join-Path $FolderPath $TechniqueFile
-		$Current_Tech = Get-Content -Path $FilePath | ConvertFrom-Yaml -Ordered
-		$Current_Tech.atomic_tests | Where-Object -FilterScript {$_.Name -eq $Test_ComboBox.Text} | ForEach-Object {If ($_.input_arguments) {$global:InputHash += $_.input_arguments}}
+		$CurrentTech = Get-Content -Path $FilePath | ConvertFrom-Yaml -Ordered
+		$CurrentTech.atomic_tests | Where-Object -FilterScript {$_.Name -eq $Test_ComboBox.Text} | ForEach-Object {If ($_.input_arguments) {$global:InputHash += $_.input_arguments}}
 		
-		foreach($Key in $global:InputHash.Keys)
+		Foreach($Key in $global:InputHash.Keys)
 		{
             Try
             {
@@ -678,7 +673,7 @@ Function Invoke()
 		    $InvokeOutput = $IARTProcess.StandardOutput.ReadToEnd()
 		    $InvokeError = $IARTProcess.StandardError.ReadToEnd()
 		    $IARTProcess.WaitForExit() 
-		    If ($output -ne "")
+		    If ($InvokeOutput -ne "")
 		    {
 			    $InvokeOutput = $InvokeOutput -replace "`n", "`r`n"
 			    $InvokeOutput_TextBox.Text += $InvokeOutput
@@ -696,9 +691,7 @@ Function Invoke()
 	{
 		[System.Windows.Forms.MessageBox]::Show("Technique does not exist.`r`nPlease browse existing techniques or create a new test", 'Error')
 	}
-
 }
-
 Function NewTest()
 {
 	ClearHomeParameters
@@ -707,14 +700,10 @@ Function NewTest()
 	CreateAtomicTestForm
 }
 
-
-
 ################################ Add Atomic Test Form ################################
 ################################ Add Atomic Test Form ################################
 ################################ Add Atomic Test Form ################################
 ################################ Add Atomic Test Form ################################
-
-################################ Add Atomic Test Form Main Function ################################
 
 Function AddAtomicTestForm()
 {
@@ -745,10 +734,10 @@ $Or_Label										= New-Object System.Windows.Forms.Label
 $Or_Label.Text									= "Or"
 $Or_Label.Location								= New-Object System.Drawing.Point(450,50)
 
-$RetHome_Button2								= New-Object System.Windows.Forms.Button
-$RetHome_Button2.Text							= "Return"
-$RetHome_Button2.Size							= New-Object System.Drawing.Size(150,30)
-$RetHome_Button2.Location						= New-Object System.Drawing.Point(870,10)
+$ReturnToTest_Button							= New-Object System.Windows.Forms.Button
+$ReturnToTest_Button.Text						= "Return"
+$ReturnToTest_Button.Size						= New-Object System.Drawing.Size(150,30)
+$ReturnToTest_Button.Location					= New-Object System.Drawing.Point(870,10)
 
 ######## AtomicTechnique Labels ########
 
@@ -804,7 +793,7 @@ $AddToTech_Button.Location						= New-Object System.Drawing.Point(10,110)
 $NewTechPanel.controls.AddRange(@($Or_Label,$NewTech_Label,$AttackTech_Label,$AttackDispName_Label,`
 										$AttackTech_TextBox,$AttackDispName_TextBox,$CreateTech_Button))
 $ModTechPanel.controls.AddRange(@($ModTech_Label,$AttackTech_Label2,$Attack_TextBox2,$AtomicsBrowser_Button2,$AddToTech_Button))
-$AddTestForm.Controls.AddRange(@($Instr_Label,$NewTechPanel,$ModTechPanel,$RetHome_Button2))
+$AddTestForm.Controls.AddRange(@($Instr_Label,$NewTechPanel,$ModTechPanel,$ReturnToTest_Button))
 
 $NewTechPanel.Controls | ForEach-Object {If ($_ -is [System.Windows.Forms.Button]) {$_.BackColor = 'LightSteelBlue'}}
 $ModTechPanel.Controls | ForEach-Object {If ($_ -is [System.Windows.Forms.Button]) {$_.BackColor = 'LightSteelBlue'}}
@@ -821,7 +810,7 @@ $Or_Label.AutoSize = $true
 
 $CreateTech_Button.Add_Click({CreateTech})
 $AddToTech_Button.Add_Click({AddToTech})
-$RetHome_Button2.Add_Click({ReturnHome2})
+$ReturnToTest_Button.Add_Click({ReturnToTest})
 $AtomicsBrowser_Button2.Add_Click({ListTechniques($Attack_TextBox2)})
 
 ################################ Add Atomic Test Form Activation ################################
@@ -835,9 +824,6 @@ $AddTestForm.ShowDialog()
 ################################ Create Atomic Test Form ################################
 ################################ Create Atomic Test Form ################################
 ################################ Create Atomic Test Form ################################
-
-
-################################ Create Atomic Test Form Main Function ################################
 
 Function CreateAtomicTestForm()
 {
@@ -892,7 +878,7 @@ $LoadPanel.Size									= New-Object System.Drawing.Size(650,400)
 ######## Load Test Labels ########
 
 $Load_Label										= New-Object System.Windows.Forms.Label
-$Load_Label.Text								= "Pre-fill form with parameters from existing test"
+$Load_Label.Text								= "Pre-fill form with parameters from existing test..."
 $Load_Label.Location							= New-Object System.Drawing.Point(10,10)
 
 $AttackTech_Label4								= New-Object System.Windows.Forms.Label
@@ -1062,6 +1048,7 @@ $InputDesc_TextBox.Size							= New-Object System.Drawing.Size(350,20)
 $InputDesc_TextBox.Location						= New-Object System.Drawing.Point(110,65)
 
 $InputType_ComboBox								= New-Object System.Windows.Forms.ComboBox
+$InputType_ComboBox.DropDownStyle				= "DropDownList"
 $InputType_ComboBox.Text						= "Select Type"
 $InputType_ComboBox.Size						= New-Object System.Drawing.Size(120,20)
 $InputType_ComboBox.Location					= New-Object System.Drawing.Point(110,95)
@@ -1148,7 +1135,6 @@ $PrereqCmd_TextBox.Multiline					= $true
 $PrereqCmd_TextBox.Scrollbars					= 'vertical'
 $PrereqCmd_TextBox.Location						= New-Object System.Drawing.Point(10,85)
 
-
 $GetPrereqCmd_TextBox							= New-Object System.Windows.Forms.TextBox
 $GetPrereqCmd_TextBox.Size						= New-Object System.Drawing.Size(650,60)
 $GetPrereqCmd_TextBox.Multiline					= $true
@@ -1227,13 +1213,10 @@ $NewTestForm.ShowDialog()
 
 }
 
-
 ################################ Home Form ################################
 ################################ Home Form ################################
 ################################ Home Form ################################
 ################################ Home Form ################################
-
-################################ Home Form Main Function ################################
 
 Function AtomicRedTeamHome()
 {
@@ -1264,7 +1247,7 @@ $Home_Label										= New-Object System.Windows.Forms.Label
 $Home_Label.Text								= "Invoke Atomic Red Team test"
 $Home_Label.Location							= New-Object System.Drawing.Point(10,10)
 
-# Home form labels #
+##### Home form labels #####
 
 $AttackTech_Label3								= New-Object System.Windows.Forms.Label
 $AttackTech_Label3.Text							= "Attack Technique"
@@ -1286,7 +1269,7 @@ $Output_Label									= New-Object System.Windows.Forms.Label
 $Output_Label.Text								= "Result"
 $Output_Label.Location							= New-Object System.Drawing.Point(10,5)
 
-# Home Form Contols #
+##### Home Form Interactions ######
 
 $NewTest_Button									= New-Object System.Windows.Forms.Button
 $NewTest_Button.Text							= "Create new test"
@@ -1335,7 +1318,6 @@ $Action_ComboBox.Location						= New-Object System.Drawing.Point(150,130)
 @('Run','CleanUp', 'CheckPrereqs', 'GetPrereqs', 'ShowDetails', 'ShowDetailsBrief') | ForEach-Object {[void] $Action_ComboBox.Items.Add($_)}
 $Action_ComboBox.SelectedIndex					= 0
 
-
 $InvokeOutput_TextBox							= New-Object System.Windows.Forms.TextBox
 $InvokeOutput_TextBox.Multiline					= $true
 $InvokeOutput_TextBox.Scrollbars				= 'vertical'
@@ -1346,6 +1328,7 @@ $InvokePanel.controls.AddRange(@($AttackTech_Label3,$Test_Label,$Action_Label,$A
 								$Test_ComboBox,$Action_ComboBox,$Invoke_Button))
 $DefaultPanel.controls.AddRange(@($DefaultInput_Label,$Input_DataGridView))
 $OutputPanel.controls.AddRange(@($Output_Label,$InvokeOutput_TextBox))
+
 $HomeForm.Controls.AddRange(@($Home_Label,$InvokePanel,$DefaultPanel,$OutputPanel,$NewTest_Button))
 
 $InvokePanel.Controls | ForEach-Object {If ($_ -is [System.Windows.Forms.Button]) {$_.BackColor = 'LightSteelBlue'}}
@@ -1389,10 +1372,10 @@ Function StartGUI
 	{
 		Write-Host "Began Invoke-AtomicRedTeam GUI." -BackgroundColor Black -ForegroundColor Cyan
 
-		# Specifies path to atomics, creates atomics folder is it does not exist
+		# Specifies path to atomics, creates atomics folder if it does not exist
 		$AtomicsPath = Join-Path $AtomicFolderPath "atomics"
-		$atomics_exists = Test-Path $AtomicsPath
-		If ($atomics_exists -eq $false)
+		$AtomicsExists = Test-Path $AtomicsPath
+		If ($AtomicsExists -eq $false)
 		{
 			Write-Host "Creating empty atomics folder..." -BackgroundColor Black -ForegroundColor Magenta
 			mkdir $AtomicsPath
