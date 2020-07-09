@@ -49,7 +49,7 @@ Function ListTechniques ($BoxToUpdate)
 Function ValidateTechnique($BoxToValidate)
 {
 	$TechPath = Join-Path $AtomicsPath $BoxToValidate.Text
-	$TechFile = $BocToValidate.Text + ".yaml" 
+	$TechFile = $BoxToValidate.Text + ".yaml" 
 	$TechFilePath = Join-Path $TechPath $TechFile
 	return (Test-Path $TechFilePath)
 }
