@@ -51,7 +51,6 @@ Function ValidateTechnique($BoxToValidate)
 	$TechPath = Join-Path $AtomicsPath $BoxToValidate.Text
 	$TechFile = $BoxToValidate.Text + ".yaml" 
 	$TechFilePath = Join-Path $TechPath $TechFile
-	[System.Windows.Forms.MessageBox]::Show($TechFilePath, 'Error')
 	return (Test-Path $TechFilePath)
 }
 
