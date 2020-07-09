@@ -32,6 +32,7 @@ Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://
 - Use the **Test** drop down to select a specific test (default 'All').
 - Select an action from the drop down menu (for more details on the purpose of each action, peruse the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki)).
 - If you selected a specific test, you can edit the default input values in the **Edit default inputs** data grid.
+- Click **INVOKE**. When the process is complete, the output will be printed to the screen.
 
 **WARNING**
 
