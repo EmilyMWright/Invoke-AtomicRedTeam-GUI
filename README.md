@@ -1,10 +1,10 @@
-## A GUI for the Invoke Atomic Red Team PowerShell Module
+# A GUI for the Invoke Atomic Red Team PowerShell Module
 
-Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). Users can run existing tests and create new tests. Note that PowerShell Core does not support Windows Forms, so this GUI is designed only to run on Windows.
+Atomic Red Team is a library of small, highly portable detection tests mapped to the MITRE ATT&CK Framework. This GUI provides a Windows Form to interact with the [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam) to run existing tests and create new tests. Note that PowerShell Core does not support Windows Forms, so this GUI is designed only to run on Windows.
 
-### Prerequisites
+## Prerequisites
 
-Install [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam)
+Install [Invoke Atomic Red Team PowerShell module](https://github,com/redcanaryco/invoke-atomicredteam). From a PowerShell promot, use:
 
 ```powershell
 IEX (IWR 'https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/install-atomicredteam.ps1' -UseBasicParsing);
@@ -13,9 +13,9 @@ Install-AtomicRedTeam
 
 By default, the installer will download and install the execution framework to `C:\AtomicRedTeam`. See the [Invoke Atomic Red Team Wiki](https://github.com/redcanaryco/invoke-atomicredteam/wiki) for more details.
 
-### Usage
+## Usage
 
-From a PowerShell prompt, use 
+From a PowerShell prompt, use: 
 
 ```powershell
 IEX (IWR "https://raw.githubusercontent.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/master/IART_GUI.ps1" -UseBasicParsing); 
@@ -24,7 +24,7 @@ StartGUI
 
 If your AtomicRedTeam folder is not in the default location, append `-AtomicFolderPath "yourpath\AtomicRedTeam"` to the command.
 
-#### Running Tests
+### Running Tests
 
 Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-AtomicTest.ps1) by specifying the ATT&CK Technique number to which the test is mapped. 
 
@@ -37,14 +37,14 @@ Tests are run using the Invoke-AtomicRedTeam [Invoke-AtomicTest module](https://
 
 Executing atomic tests may leave your system in an undesirable state. You are responsible for understanding what a test does before executing. Ensure you have permission to test before you begin. It is recommended to set up a test machine for atomic test execution that is similar to the build in your environment. Be sure you have your collection/EDR solution in place, and that the endpoint is checking in and active.
 
-#### Creating Tests
+### Creating Tests
 
 Tests are created using the Invoke-AtomicRedTeam [New-Atomic module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/New-Atomic.ps1). Each new test must be added to an ATT&CK Technique (either existing or new).
 
 - From the home page, click **Create Test**. You will be directed to a new window to specify the test parameters.
-- Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form with parameters from an existing test. Type the technique (TNNNN) or use the **Browse...** button to navigate to the folder of the technique, then click **Load Test**. To reset all parameters, click **Clear**.
-- Optionally, fill in [input parameters](#input_parameters) and click **Add Input**. To modify an input, select it in the **Input List**, make your changes and click **Update Input**. To remove it altogether, click **Remove Input**.
-- Optionally, fill in [dependency parameters](#dependency_parameters) and click **Add Dependency**. To modify a dependency, select it in the **Dependency List**, make your changes and click **Update Dependency**. To remove it altogether, click **Remove Dependency**.
+- Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form by typing the technique (TNNNN) or using the **Browse...** button to navigate to the folder of the technique, then clickung **Load Test**. To reset all parameters, click **Clear**.
+- Optionally, fill in [input parameters](#input_parameters) and click **Add Input**. To modify an input, select it in the **Input List**, make your changes, and click **Update Input**. To remove it altogether, select it and click **Remove Input**.
+- Optionally, fill in [dependency parameters](#dependency_parameters) and click **Add Dependency**. To modify a dependency, select it in the **Dependency List**, make your changes and click **Update Dependency**. To remove it altogether, select it and click **Remove Dependency**.
 - Click **Create Test**. You will be directed to a new window to add the test to a technique.
 - To create a new technique, fill in the [attack technique parameters](attack_technique_parameters) and click **Add test to new attack technique**. Alternatively, append the test to an exisitng technique. Type the technique (TNNNN) or use the **Browse...** button to navigate to the folder of the technique, then click **Add test to existing attack technique**.
 
@@ -93,9 +93,9 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Attack Technique:** Specifies one or more MITRE ATT&CK techniques that to which this technique applies. Per MITRE naming convention, an attack technique should start with "T" followed by a 4 digit number. The MITRE sub-technique format is also supported: TNNNN.NNN
 - **DisplayName:** Specifies the name of the technique as defined by ATT&CK. Example: 'Audio Capture'
 
-### License
+## License
 
-This project is licensed under the terms of the MIT license. See [LICENSE.txt](https://github.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/blob/master/LICENSE.txt)
+This project is licensed under the terms of the MIT license. See [LICENSE.txt](https://github.com/EmilyMWright/Invoke-AtomicRedTeam-GUI/blob/master/LICENSE.txt).
 
 
 
