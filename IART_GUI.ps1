@@ -613,7 +613,7 @@ Function Invoke()
 		{
 		 	If ($Action_ComboBox.Text -eq 'Run')
 			{
-				If ($Input_DataGridView.RowCount -ge 1)
+				If ($Input_DataGridView.RowCount -lt 1)
 				{
 					$InvokeCmd = "Invoke-AtomicTest " + $Attack_TextBox.Text + " -TestNames '" + $Test_ComboBox.Text + "'" + `
 					" -PathToAtomicsFolder " + $AtomicsPath
@@ -631,7 +631,6 @@ Function Invoke()
 			}
 		}
 	
-	
 		# Builds a string to create a hash table containing custom inputs
 		$InputHash_Str = '@{'
 		Foreach ($InputRow in $Input_DataGridView.Rows)
@@ -642,10 +641,9 @@ Function Invoke()
 		$InputHash_Str += '}'
 		
 		$CustomIn_Str = '$Custom_Inputs = ' + "$InputHash_Str"
-		[System.Windows.Forms.MessageBox]::Show($CustomIn_Str, 'Debugging')
 		
 		# Creates final invoke command to be sent to process
-		If (($Input_DataGridView.RowCount -le 1) -or ($Test_ComboBox.Text -eq 'All'))
+		If (($Input_DataGridView.RowCount -lt 1) -or ($Test_ComboBox.Text -eq 'All'))
 		{
 			$FinalInvokeCmd = "Import-Module $ModuleName -Force; $InvokeCmd"
 		}
@@ -653,7 +651,6 @@ Function Invoke()
 		{
 			$FinalInvokeCmd = "Import-Module $ModuleName -Force; $CustomIn_Str; $InvokeCmd"
 		}
-		[System.Windows.Forms.MessageBox]::Show($FinalInvokeCmd, 'Debugging')
 
         Try
         {
