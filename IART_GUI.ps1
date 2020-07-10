@@ -652,6 +652,7 @@ Function Invoke()
 		{
 			$FinalInvokeCmd = "Import-Module $ModuleName -Force; $CustomIn_Str; $InvokeCmd"
 		}
+		[System.Windows.Forms.MessageBox]::Show($FinalInvokeCmd, 'Debugging')
 
         Try
         {
