@@ -642,6 +642,7 @@ Function Invoke()
 		$InputHash_Str += '}'
 		
 		$CustomIn_Str = '$Custom_Inputs = ' + "$InputHash_Str"
+		[System.Windows.Forms.MessageBox]::Show($CustomIn_Str, 'Debugging')
 		
 		# Creates final invoke command to be sent to process
 		If (($Input_DataGridView.RowCount -le 1) -or ($Test_ComboBox.Text -eq 'All'))
