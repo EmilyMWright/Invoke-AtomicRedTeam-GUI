@@ -613,7 +613,7 @@ Function Invoke()
 		{
 		 	If ($Action_ComboBox.Text -eq 'Run')
 			{
-				If ($Input_DataGridView.RowCount -le 1)
+				If ($Input_DataGridView.RowCount -lt 1)
 				{
 					$InvokeCmd = "Invoke-AtomicTest " + $Attack_TextBox.Text + " -TestNames '" + $Test_ComboBox.Text + "'" + `
 					" -PathToAtomicsFolder " + $AtomicsPath
@@ -637,8 +637,6 @@ Function Invoke()
 		Foreach ($InputRow in $Input_DataGridView.Rows)
 		{	
 			$InputHash_Str += "'" + $InputRow.Cells[0].Value + "'= '" + $InputRow.Cells[1].Value + "';"
-			[System.Windows.Forms.MessageBox]::Show($InputHash_Str, 'Debugging')
-	
 		}
 		$InputHash_Str = $InputHash_Str.SubString(0, $InputHash_Str.Length - 1)
 		$InputHash_Str += '}'
