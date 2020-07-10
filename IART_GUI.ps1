@@ -105,8 +105,8 @@ Function AddToTech()
 		{
 			$AtomicTech.atomic_tests = $AtomicTech.atomic_tests + $NewAtomicTest
 			$AtomicTech | ConvertTo-Yaml | Out-File $FilePath
-            Write-Host "Added test " $global:AtomicTest.name " to attack technique " $AttackTech_TextBox2.Text -BackgroundColor Black -ForegroundColor Magenta
-			[System.Windows.Forms.MessageBox]::Show("Added test " + $NewAtomicTest.name + " to attack technique " + $Attack_TextBox2.Text, 'Success!')
+            Write-Host "Added test $global:AtomicTest.name to attack technique $AttackTech_TextBox2.Text" -BackgroundColor Black -ForegroundColor Magenta
+			[System.Windows.Forms.MessageBox]::Show("Added test $NewAtomicTest.name to attack technique $Attack_TextBox2.Text", 'Success!')
 			$global:AtomicTest = $null
 			ReturnToTest
 		}
