@@ -993,12 +993,14 @@ $ExecSteps_TextBox.Location						= New-Object System.Drawing.Point(10,470)
 
 $ExecCmd_TextBox								= New-Object System.Windows.Forms.TextBox
 $ExecCmd_TextBox.Multiline						= $true
+$ExecCmd_TextBox.WordWrap						= $false
 $ExecCmd_TextBox.Scrollbars						= 'both'
 $ExecCmd_TextBox.Size							= New-Object System.Drawing.Size(550,80)
 $ExecCmd_TextBox.Location						= New-Object System.Drawing.Point(10,170)
 
 $CleanCmd_TextBox								= New-Object System.Windows.Forms.TextBox
 $CleanCmd_TextBox.Multiline						= $true
+$CleanCmd_TextBox.WordWrap						= $false
 $CleanCmd_TextBox.Scrollbars					= 'both'
 $CleanCmd_TextBox.Location						= New-Object System.Drawing.Point(10,300)
 $CleanCmd_TextBox.Size							= New-Object System.Drawing.Size(550,80)
@@ -1131,12 +1133,14 @@ $DepDesc_TextBox.Location						= New-Object System.Drawing.Point(110,25)
 $PrereqCmd_TextBox								= New-Object System.Windows.Forms.TextBox
 $PrereqCmd_TextBox.Size							= New-Object System.Drawing.Size(650,60)
 $PrereqCmd_TextBox.Multiline					= $true
+$PrereqCmd_TextBox.WordWrap						= $false
 $PrereqCmd_TextBox.Scrollbars					= 'both'
 $PrereqCmd_TextBox.Location						= New-Object System.Drawing.Point(10,85)
 
 $GetPrereqCmd_TextBox							= New-Object System.Windows.Forms.TextBox
 $GetPrereqCmd_TextBox.Size						= New-Object System.Drawing.Size(650,60)
 $GetPrereqCmd_TextBox.Multiline					= $true
+$GetPrereqCmd_TextBox.WordWrap					= $false
 $GetPrereqCmd_TextBox.Scrollbars				= 'both'
 $GetPrereqCmd_TextBox.Location					= New-Object System.Drawing.Point(10,175)
 
@@ -1353,7 +1357,7 @@ $NewTest_Button.Add_Click({NewTest})
 ################################ Home Form Activation ################################
 
 $HomeForm.Add_Shown({$HomeForm.Activate()}) 
-$HomeForm.ShowDialog()
+$DummyHomeRes = $HomeForm.ShowDialog()
 $HomeForm.Dispose()
 
 }
