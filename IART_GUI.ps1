@@ -1308,6 +1308,7 @@ $Input_DataGridView.Columns[1].Name				= "Value"
 $Input_DataGridView.Columns[0].Width			= 100
 $Input_DataGridView.Columns[1].Width			= 257
 $Input_DataGridView.Columns[0].ReadOnly			= $true
+$Input_DataGridView.AllowUserToAddRows			= $false
 $Input_DataGridView.BackgroundColor				= "White"
 
 $Action_ComboBox								= New-Object System.Windows.Forms.ComboBox
@@ -1352,7 +1353,7 @@ $NewTest_Button.Add_Click({NewTest})
 ################################ Home Form Activation ################################
 
 $HomeForm.Add_Shown({$HomeForm.Activate()}) 
-$HomeRes = $HomeForm.ShowDialog()
+$HomeForm.ShowDialog()
 $HomeForm.Dispose()
 
 }
