@@ -140,6 +140,7 @@ Function ClearTestParameters()
 	$global:DepHash = @{}
 	
 	$ExecPanel.Controls | ForEach-Object {If ($_ -is [System.Windows.Forms.RadioButton]) {$_.Checked = $false}}
+	$DepPanel.Controls | ForEach-Object {If ($_ -is [System.Windows.Forms.RadioButton]) {$_.Checked = $false}}
 	For ($i=0; $i -le 2; $i++) {$SuppPlats_CheckBox.SetItemChecked($i,$false)}
 	$SupportedPlatforms = @()
 	
@@ -693,7 +694,9 @@ Function NewTest()
 	ClearHomeParameters
 	$InvokeOutput_TextBox.Text = ""
 	Import-Module $ModuleName -Force
+	$HomeForm.WindowState = 'Minimized'
 	CreateAtomicTestForm
+	$HomeForm.WindowState = 'Maximized'
 }
 
 ################################ Add Atomic Test Form ################################
@@ -984,19 +987,19 @@ $Elevation_CheckBox.Font						= 'Segoe UI,10,style=Bold'
 
 $ExecSteps_TextBox								= New-Object System.Windows.Forms.TextBox
 $ExecSteps_TextBox.Multiline					= $true
-$ExecSteps_TextBox.Scrollbars					= 'vertical'
+$ExecSteps_TextBox.Scrollbars					= 'both'
 $ExecSteps_TextBox.Size							= New-Object System.Drawing.Size(550,80)
 $ExecSteps_TextBox.Location						= New-Object System.Drawing.Point(10,470)
 
 $ExecCmd_TextBox								= New-Object System.Windows.Forms.TextBox
 $ExecCmd_TextBox.Multiline						= $true
-$ExecCmd_TextBox.Scrollbars						= 'vertical'
+$ExecCmd_TextBox.Scrollbars						= 'both'
 $ExecCmd_TextBox.Size							= New-Object System.Drawing.Size(550,80)
 $ExecCmd_TextBox.Location						= New-Object System.Drawing.Point(10,170)
 
 $CleanCmd_TextBox								= New-Object System.Windows.Forms.TextBox
 $CleanCmd_TextBox.Multiline						= $true
-$CleanCmd_TextBox.Scrollbars					= 'vertical'
+$CleanCmd_TextBox.Scrollbars					= 'both'
 $CleanCmd_TextBox.Location						= New-Object System.Drawing.Point(10,300)
 $CleanCmd_TextBox.Size							= New-Object System.Drawing.Size(550,80)
 
@@ -1128,13 +1131,13 @@ $DepDesc_TextBox.Location						= New-Object System.Drawing.Point(110,25)
 $PrereqCmd_TextBox								= New-Object System.Windows.Forms.TextBox
 $PrereqCmd_TextBox.Size							= New-Object System.Drawing.Size(650,60)
 $PrereqCmd_TextBox.Multiline					= $true
-$PrereqCmd_TextBox.Scrollbars					= 'vertical'
+$PrereqCmd_TextBox.Scrollbars					= 'both'
 $PrereqCmd_TextBox.Location						= New-Object System.Drawing.Point(10,85)
 
 $GetPrereqCmd_TextBox							= New-Object System.Windows.Forms.TextBox
 $GetPrereqCmd_TextBox.Size						= New-Object System.Drawing.Size(650,60)
 $GetPrereqCmd_TextBox.Multiline					= $true
-$GetPrereqCmd_TextBox.Scrollbars				= 'vertical'
+$GetPrereqCmd_TextBox.Scrollbars				= 'both'
 $GetPrereqCmd_TextBox.Location					= New-Object System.Drawing.Point(10,175)
 
 $AddDep_Button									= New-Object System.Windows.Forms.Button
@@ -1317,6 +1320,7 @@ $Action_ComboBox.SelectedIndex					= 0
 
 $InvokeOutput_TextBox							= New-Object System.Windows.Forms.TextBox
 $InvokeOutput_TextBox.Multiline					= $true
+$InvokeOutput_TextBox.ReadOnly					= $true
 $InvokeOutput_TextBox.Scrollbars				= 'vertical'
 $InvokeOutput_TextBox.Size						= New-Object System.Drawing.Size(900,500)
 $InvokeOutput_TextBox.Location					= New-Object System.Drawing.Point(10,30)
