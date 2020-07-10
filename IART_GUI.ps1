@@ -613,7 +613,7 @@ Function Invoke()
 		{
 		 	If ($Action_ComboBox.Text -eq 'Run')
 			{
-				If ($Input_DataGridView.RowCount -lt 1)
+				If ($Input_DataGridView.RowCount -ge 1)
 				{
 					$InvokeCmd = "Invoke-AtomicTest " + $Attack_TextBox.Text + " -TestNames '" + $Test_ComboBox.Text + "'" + `
 					" -PathToAtomicsFolder " + $AtomicsPath
