@@ -49,7 +49,7 @@ Executing atomic tests may leave your system in an undesirable state. You are re
 Tests are created using the Invoke-AtomicRedTeam [New-Atomic module](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/New-Atomic.ps1). Each new test must be added to an ATT&CK Technique (either existing or new).
 
 - From the home page, click **Create Test**. You will be directed to a new window to specify the test parameters.
-- Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form by typing the technique (TNNNN) or using the **Browse...** button to navigate to the folder of the technique, then clickung **Load Test**. To reset all parameters, click **Clear**.
+- Fill in [test parameters](#test-parameters). If your test will be similar to an existing test, you can pre-fill the form by typing the technique (TNNNN) or using the **Browse...** button to navigate to the folder of the technique, then clicking **Load Test**. To reset all parameters, click **Clear**.
 - Optionally, fill in [input parameters](#input_parameters) and click **Add Input**. To modify an input, select it in the **Input List**, make your changes, and click **Update Input**. To remove it altogether, select it and click **Remove Input**.
 - Optionally, fill in [dependency parameters](#dependency_parameters) and click **Add Dependency**. To modify a dependency, select it in the **Dependency List**, make your changes and click **Update Dependency**. To remove it altogether, select it and click **Remove Dependency**.
 - Click **Create Test**. You will be directed to a new window to add the test to a technique.
@@ -66,16 +66,16 @@ The minimum parameters are test name, test description, supported platforms, and
 - **Executor Type:** Specifies the the framework or application in which the test should be executed. The following executor types are currently supported: CommandPrompt, Sh, Bash, PowerShell.
     - **CommandPrompt:** The Windows Command Prompt, aka cmd.exe
     
-    Requires the -ExecutorCommand argument to contain a multi-linescript that will be preprocessed and then executed by cmd.exe.
+    Requires the Executor Command argument to contain a multi-linescript that will be preprocessed and then executed by cmd.exe.
     - **PowerShell:** PowerShell
     
-    Requires the -ExecutorCommand argument to contain a multi-line PowerShell scriptblock that will be preprocessed and then executed by powershell.exe
+    Requires the Executor Command argument to contain a multi-line PowerShell scriptblock that will be preprocessed and then executed by powershell.exe
     - **Sh:** Linux's bourne shell
     
-    Requires the -ExecutorCommand argument to contain a multi-line script that will be preprocessed and then executed by sh.
+    Requires the Executor Command argument to contain a multi-line script that will be preprocessed and then executed by sh.
     - **Bash:** Linux's bourne again shell
     
-    Requires the -ExecutorCommand argument to contain a multi-line script that will be preprocessed and then executed by bash.
+    Requires the Executor Command argument to contain a multi-line script that will be preprocessed and then executed by bash.
 - **Elevation Required:** Specifies that the test must run with elevated privileges.
 - **Executor Command:** Specifies the command to execute as part of the atomic test. This should be specified when the atomic test can be executed in an automated fashion. (The Executor Type specified will dictate the command specified, e.g. PowerShell scriptblock code when the "PowerShell" Executor Type is specified.)
 - **Executor Clean-up Command:** Specifies the command to execute if there are any artifacts that need to be cleaned up.
