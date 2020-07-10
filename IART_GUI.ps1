@@ -635,11 +635,8 @@ Function Invoke()
 		# Builds a string to create a hash table containing custom inputs
 		$InputHash_Str = '@{'
 		Foreach ($Input_Row in $Input_DataGridView.Rows)
-		{
-			If (!$Input_Row.IsNewRow)
-			{		
-				$InputHash_Str += "'" + $Input_Row.Cells[0].Value + "'= '" + $Input_Row.Cells[1].Value + "';"
-			}
+		{	
+			$InputHash_Str += "'" + $Input_Row.Cells[0].Value + "'= '" + $Input_Row.Cells[1].Value + "';"
 		}
 		$InputHash_Str = $InputHash_Str.SubString(0, $InputHash_Str.Length - 1)
 		$InputHash_Str += '}'
