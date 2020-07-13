@@ -217,8 +217,8 @@ Function LoadTest()
 		$AtomicTech = Get-Content -Path $FilePath | ConvertFrom-Yaml -Ordered
 		$global:AtomicTest = $AtomicTech.atomic_tests | Where-Object -FilterScript {$_.Name -eq $Test_ComboBox2.Text}
 		
-		$TestName_TextBox.Text = $global:AtomicTest.Name
-		$TestDesc_TextBox.Text = $global:AtomicTest.Description
+		$TestName_TextBox.Text = $global:AtomicTest.Name 
+		$TestDesc_TextBox.Text = $global:AtomicTest.Description -replace "`n", "`r`n"
 		$ExecType = $global:AtomicTest.executor.name -Replace "_",""
 		$ExecPanel.Controls | ForEach-Object {If (($_ -is [System.Windows.Forms.RadioButton]) -and ($_.Text -eq $ExecType)) {$_.Checked = $true}}
 		$SupportedPlatforms = $global:AtomicTest.supported_platforms
@@ -233,15 +233,15 @@ Function LoadTest()
 		{
 			If ($global:AtomicTest.executor.Contains("command"))
 			{
-				$ExecCmd_TextBox.Text = $global:AtomicTest.executor.command
+				$ExecCmd_TextBox.Text = $global:AtomicTest.executor.command -replace "`n", "`r`n"
 			}
 			If ($global:AtomicTest.executor.Contains("cleanup_command"))
 			{
-				$CleanCmd_TextBox.Text = $global:AtomicTest.executor.cleanup_command
+				$CleanCmd_TextBox.Text = $global:AtomicTest.executor.cleanup_command -replace "`n", "`r`n"
 			}
 			If ($global:AtomicTest.executor.Contains("steps"))
 			{
-				$ExecSteps_TextBox.Text = $global:AtomicTest.executor.steps
+				$ExecSteps_TextBox.Text = $global:AtomicTest.executor.steps -replace "`n", "`r`n"
 			}
 		}
 		
@@ -349,6 +349,8 @@ Function CreateTest()
 		{
 			$NewTestCmd += ' -ExecutorElevationRequired'
 		}
+
+		$NewTestCmd = $NewTestCmd -replace "`r`n", "`n"
 
 		Try
 		{
