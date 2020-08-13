@@ -62,10 +62,10 @@ Function CreateTech()
 		$AtomicTech = New-AtomicTechnique -AttackTechnique $AttackTech_TextBox.Text -DisplayName $AttackDispName_TextBox.Text -AtomicTests @($global:AtomicTest)
 		$TechniqueFile = $AttackTech_TextBox.Text + ".yaml"
 		$FolderPath = Join-Path $AtomicsPath $AttackTech_TextBox.Text 
+		$FilePath = Join-Path $FolderPath $TechniqueFile
 		$TechFolderExists = Test-Path $FolderPath
 		If ($TechFolderExists)
 		{
-			$FilePath = New-Item -Path $FolderPath -Name $TechniqueFile
 			$TechExists = Test-Path $FilePath
 		}
 		Else
