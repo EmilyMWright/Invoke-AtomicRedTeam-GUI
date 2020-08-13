@@ -62,11 +62,17 @@ Function CreateTech()
 		$AtomicTech = New-AtomicTechnique -AttackTechnique $AttackTech_TextBox.Text -DisplayName $AttackDispName_TextBox.Text -AtomicTests @($global:AtomicTest)
 		$TechniqueFile = $AttackTech_TextBox.Text + ".yaml"
 		$FolderPath = Join-Path $AtomicsPath $AttackTech_TextBox.Text 
-		$TechExists = Test-Path $FolderPath
+		$FolderExists = Test-Path $FolderPath
+		$FilePath = New-Item -Path $FolderPath -Name $TechniqueFile
+		$TechExists = Test-Path $FilePath
+
 		If ($TechExists -eq $false)
 		{
-		    mkdir $FolderPath
-		    $FilePath = New-Item -Path $FolderPath -Name $TechniqueFile
+			If ($FolderExists -eq $false)
+			{
+				mkdir $FolderPath
+			}
+		    
 		    $AtomicTech | ConvertTo-Yaml | Out-File $FilePath
             
             Write-Host "Added test " $global:AtomicTest.name " to new attack technique " $AttackTech_TextBox.Text -BackgroundColor Black -ForegroundColor Magenta
@@ -659,12 +665,14 @@ Function Invoke()
         {
 		    # Starts new process to run invoke command
 		    $psi = New-object System.Diagnostics.ProcessStartInfo 
-		    $psi.CreateNoWindow = $false 
-		    $psi.UseShellExecute = $false 
 		    $psi.RedirectStandardOutput = $true 
 		    $psi.RedirectStandardError = $true 
 		    $psi.FileName = "powershell.exe"
-		    $psi.Arguments = @("$FinalInvokeCmd")
+			$psi.Arguments = @("$FinalInvokeCmd")
+			If (([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+			{
+				$psi.Verb = 'RunAs'
+			}
 		    $IARTProcess = New-Object System.Diagnostics.Process 
 		    $IARTProcess.StartInfo = $psi 
 		    [void]$IARTProcess.Start()
