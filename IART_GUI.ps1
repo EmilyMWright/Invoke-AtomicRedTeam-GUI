@@ -75,7 +75,7 @@ Function CreateTech()
 
 		If ($TechExists -eq $false)
 		{
-			If ($FolderExists -eq $false)
+			If ($TechFolderExists -eq $false)
 			{
 				mkdir $FolderPath
 			}
