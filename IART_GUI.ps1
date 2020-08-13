@@ -664,7 +664,8 @@ Function Invoke()
         Try
         {
 		    # Starts new process to run invoke command
-			$psi = New-object System.Diagnostics.ProcessStartInfo 
+			$psi = New-object System.Diagnostics.ProcessStartInfo
+			$psi.CreateNoWindow = $false 
 			$psi.UseShellExecute = $false
 		    $psi.RedirectStandardOutput = $true 
 		    $psi.RedirectStandardError = $true 
